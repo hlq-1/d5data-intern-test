@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Resume</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .wrap {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      max-width: 900px;
+      width: 100%;
+    }
+    .left {
+      flex: 1;
+    }
+    .title-h1 {
+      font-size: 22px;
+      color: #111;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .title-h2 {
+      font-size: 18px;
+      color: #222;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .desc-text {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 24px;
+    }
+    .illustration {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+    .right {
+      flex: 1;
+    }
+    .upload-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 28px;
+    }
+    .upload-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .drag-area {
+      border: 1px dashed #b8d4f7;
+      border-radius: 10px;
+      background: #f0f7ff;
+      padding: 32px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .drag-area:hover {
+      border-color: #609cec;
+    }
+    .drag-area.active {
+      border-color: #2563eb;
+      background: #e6f0ff;
+    }
+    .cloud-icon {
+      font-size: 34px;
+      color: #609cec;
+      margin-bottom: 10px;
+    }
+    .tip-text {
+      font-size: 12px;
+      color: #777;
+      line-height: 1.45;
+    }
+    #file-input {
+      display: none;
+    }
+    .file-name {
+      margin-top:14px;
+      font-size:13px;
+    }
+    .btn-group {
+      margin-top:24px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+    }
+    button {
+      padding:7px 20px;
+      border-radius:6px;
+      border:none;
+      cursor:pointer;
+      font-size:14px;
+      transition: 0.2s;
+    }
+    .btn-prev {
+      background-color: #b8d4f7;
+      color:#2268c9;
+    }
+    .btn-prev:hover {
+      background-color:#609cec;
+      color:#fff;
+    }
+    .btn-finish {
+      background-color:#2563eb;
+      color:#fff;
+    }
+    .btn-finish:hover {
+      background-color:#1540b0;
+    }
+    .btn-finish:active {
+      background-color:#0f2e80;
+    }
+    .step-dots {
+      margin-top:24px;
+      display:flex;
+      justify-content:center;
+      gap:24px;
+    }
+    .dot {
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:#b8d4f7;
+    }
+    .dot.active {
+      background:#2563eb;
+    }
+    @media (max-width:768px) {
+      .wrap {
+        flex-direction: column;
+      }
+      .left, .right {
+        width:100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="left">
+      <h2 class="title-h1">Finish!</h2>
+      <h3 class="title-h2">Upload Your Resume</h3>
+      <p class="desc-text">Upload your resume, the platform will help you parse and optimize, you just take a step</p>
+      <img class="illustration" src="https://placehold.co/400x300/f0f7ff/2563eb?text=Blue+Cat+Illustration" alt="illustration">
+    </section>
+    <section class="right">
+      <div class="upload-card">
+        <h3>Upload file</h3>
+        <div class="drag-area" id="dragArea">
+          <div class="cloud-icon">☁</div>
+          <p class="tip-text">Drag your resume file to this area, or click on the area to select the appropriate file to upload</p>
+          <input type="file" id="file-input">
+        </div>
+        <div class="file-name" id="fileName"></div>
+        <div class="btn-group">
+          <button class="btn-prev">Last step</button>
+          <button class="btn-finish">Finish</button>
+        </div>
+        <div class="step-dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot active"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const dragArea = document.getElementById('dragArea');
+    const fileInput = document.getElementById('file-input');
+    const fileNameDom = document.getElementById('fileName');
+
+    dragArea.onclick = () => fileInput.click();
+
+    fileInput.onchange = (e) => {
+      const file = e.target.files[0];
+      if(file) fileNameDom.innerText = `📄 ${file.name}`;
+    }
+
+    dragArea.ondragover = e => {
+      e.preventDefault();
+      dragArea.classList.add('active');
+    }
+    dragArea.ondragleave = () => {
+      dragArea.classList.remove('active');
+    }
+    dragArea.ondrop = e => {
+      e.preventDefault();
+      dragArea.classList.remove('active');
+      const file = e.dataTransfer.files[0];
+      if(file) fileNameDom.innerText = `📄 ${file.name}`;
+    }
+  </script>
+</body>
+</html>
